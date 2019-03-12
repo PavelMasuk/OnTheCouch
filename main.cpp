@@ -10,7 +10,6 @@ int main(int argc, char *argv[])
     QGraphicsScene * scene=new QGraphicsScene();
 
     Dolboeb * dolboeb=new Dolboeb();
-    dolboeb->setRect(0,0,100,100);
     dolboeb->setFlag(QGraphicsItem::ItemIsFocusable);
     dolboeb->setFocus();
     scene->addItem(dolboeb);
@@ -18,6 +17,7 @@ int main(int argc, char *argv[])
     view->setFixedSize(800,800);
     view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    view->setSceneRect(-200,-300,600,500);
     view->show();
     return a.exec();
 }

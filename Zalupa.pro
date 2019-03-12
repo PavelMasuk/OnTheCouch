@@ -26,10 +26,12 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
-    dolboeb.cpp
+    dolboeb.cpp \
+    bullet.cpp
 
 HEADERS += \
-    dolboeb.h
+    dolboeb.h \
+    bullet.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
