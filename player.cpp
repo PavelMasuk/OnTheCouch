@@ -12,12 +12,12 @@ Player::Player()
     horisontalVelocity=0;
     facingRight=true;
     jumping=false;
-
     absoluteX=0;
     absoluteY=100;
 
     activeMap.push_back(new Platform(1000, 150, 1000, 200, ""));
-    activeMap.push_back(new Platform(1300, 100, 10, 50, ""));
+    activeMap.push_back(new Platform(1300, -50, 100, 200, ""));
+    activeMap.push_back(new Platform(1450, -100, 500, 50, ""));
 
     QTimer * timer=new QTimer();
     connect(timer, SIGNAL(timeout()), this, SLOT(move()));
@@ -65,9 +65,57 @@ void Player::keyReleaseEvent(QKeyEvent *event){
 
 bool Player::isOnTheGround()
 {
-    if(y()>100)
+    for(Platform* platform : activeMap){
+        if(absoluteX>platform->absoluteX-LENGTH && absoluteX< platform->absoluteX+platform->length){
+            if(y()<platform->absoluteY+platform->height && y()+HEIGHT>=platform->absoluteY){
+                setPos(x(), platform->absoluteY-HEIGHT);
+                return  true;
+            }
+        }
+    }
+    if(y()>=150){
+        setPos(x(), 150);
         return true;
+    }
     return false;
+}
+
+bool Player::canMoveHorizontally(int distance){
+    bool canMove=true;
+    for(Platform* platform : activeMap){
+        if(platform->isAddedToTheScene){
+            if(absoluteX+distance+LENGTH>=platform->absoluteX && absoluteX+distance<= platform->absoluteX+platform->length+3){
+                if(y()<platform->absoluteY+platform->height && y()+HEIGHT>platform->absoluteY){
+                    canMove=false;
+                }
+            }
+        }
+    }
+    return canMove;
+}
+
+void Player::moveHorizontally(int distance)
+{
+    absoluteX+=horisontalVelocity;
+    for(Platform* platform : activeMap){
+        if(platform->isAddedToTheScene){
+            platform->move(distance);
+        }
+    }
+}
+
+bool Player::canMoveUpwards(int distance){
+    bool canMove=true;
+    for(Platform* platform : activeMap){
+        if(platform->isAddedToTheScene){
+            if(absoluteX>=platform->absoluteX-LENGTH && absoluteX<= platform->absoluteX+platform->length){
+                if(y()-distance<platform->absoluteY+platform->height && y()-distance+HEIGHT>platform->absoluteY){
+                    canMove=false;
+                }
+            }
+        }
+    }
+    return canMove;
 }
 
 void Player::jump()
@@ -83,15 +131,10 @@ void Player::shoot()
 }
 
 void Player::move()
-{
-
-    absoluteX+=horisontalVelocity;
+{   
+    //map loading
     for(Platform* platform : activeMap){
-        //qDebug()<<"should be on screen";
-        //qDebug()<<platform->absoluteX;
-        qDebug()<<absoluteX;
-        //qDebug()<<platform->absoluteX+platform->length;
-        //qDebug()<<absoluteX-500;
+        //qDebug()<<absoluteX;
         if(platform->absoluteX<absoluteX+600 && platform->absoluteX+platform->length>absoluteX-500){
             if(!platform->isAddedToTheScene){
                 qDebug()<<"ADD ITEM TO THE SCENE-------------------------";
@@ -109,19 +152,25 @@ void Player::move()
     if(jumping){
         jump();
     }
-    setPos(x(),y()-verticalVelocity);
-    if(!isOnTheGround()){
-        verticalVelocity-=1;
-    }else{
-        verticalVelocity=0;
-        //add set pos on top of the ground to avoid penetrating the ground after a big fall
-    }
-    for(Platform* platform : activeMap){
-        if(platform->isAddedToTheScene){
-            platform->move(horisontalVelocity);
+    if(isOnTheGround()){
+        if(verticalVelocity<0){
+            verticalVelocity=0;
         }
+    }else{
+        verticalVelocity-=1;
     }
 
+    if(!canMoveUpwards(verticalVelocity) && verticalVelocity>0){
+        verticalVelocity=0;
+    }
+
+
+    setPos(x(),y()-verticalVelocity);
+    isOnTheGround(); //protection from going through the ground for a second after a big fall
+
+    if(canMoveHorizontally(horisontalVelocity)){
+        moveHorizontally(horisontalVelocity);
+    }
 }
 
 

@@ -20,6 +20,7 @@ public:
     double absoluteY;
 
     std::vector<Platform*> activeMap;
+    std::vector<Platform*> inActiveMap;
 
     int verticalVelocity;
     bool jumping;
@@ -28,6 +29,9 @@ public:
     void keyPressEvent(QKeyEvent * event);
     void keyReleaseEvent(QKeyEvent * event);
     bool isOnTheGround();
+    bool canMoveHorizontally(int distance);
+    void moveHorizontally(int distance);
+    bool canMoveUpwards(int distance);
     void jump();
     void shoot();
 
