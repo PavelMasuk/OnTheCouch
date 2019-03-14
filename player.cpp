@@ -12,6 +12,13 @@ Player::Player()
     horisontalVelocity=0;
     facingRight=true;
     jumping=false;
+
+    absoluteX=0;
+    absoluteY=100;
+
+    activeMap.push_back(new Platform(1000, 150, 1000, 200, ""));
+    activeMap.push_back(new Platform(1300, 100, 10, 50, ""));
+
     QTimer * timer=new QTimer();
     connect(timer, SIGNAL(timeout()), this, SLOT(move()));
     timer->start(10);
@@ -77,15 +84,42 @@ void Player::shoot()
 
 void Player::move()
 {
+
+    absoluteX+=horisontalVelocity;
+    for(Platform* platform : activeMap){
+        //qDebug()<<"should be on screen";
+        //qDebug()<<platform->absoluteX;
+        qDebug()<<absoluteX;
+        //qDebug()<<platform->absoluteX+platform->length;
+        //qDebug()<<absoluteX-500;
+        if(platform->absoluteX<absoluteX+600 && platform->absoluteX+platform->length>absoluteX-500){
+            if(!platform->isAddedToTheScene){
+                qDebug()<<"ADD ITEM TO THE SCENE-------------------------";
+                scene()->addItem(platform);
+                platform->isAddedToTheScene=true;
+            }
+        }else{
+            if(platform->isAddedToTheScene){
+                platform->isAddedToTheScene=false;
+                platform->collapse();
+            }
+        }
+    }
+
     if(jumping){
         jump();
     }
-    setPos(x()+horisontalVelocity,y()-verticalVelocity);
+    setPos(x(),y()-verticalVelocity);
     if(!isOnTheGround()){
         verticalVelocity-=1;
     }else{
         verticalVelocity=0;
         //add set pos on top of the ground to avoid penetrating the ground after a big fall
+    }
+    for(Platform* platform : activeMap){
+        if(platform->isAddedToTheScene){
+            platform->move(horisontalVelocity);
+        }
     }
 
 }

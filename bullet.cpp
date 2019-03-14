@@ -33,6 +33,5 @@ void Bullet::move()
         scene()->removeItem(this);
         delete this;
     }
-    qDebug()<<x();
 }
 

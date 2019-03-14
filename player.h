@@ -2,7 +2,9 @@
 #define PLAYER_H
 
 #include <QGraphicsRectItem>
-#include<QObject>
+#include <QObject>
+#include <vector>
+#include "platform.h"
 
 class Player: public  QObject, public QGraphicsRectItem{
 Q_OBJECT
@@ -13,8 +15,11 @@ public:
     const int HEIGHT=45;
     const int LENGTH=30;
     const double PISTOL_TO_BODY_HEIGHT_RATIO=0.7;//1=head, 0=feet
-    bool temp=true;
 
+    double absoluteX;
+    double absoluteY;
+
+    std::vector<Platform*> activeMap;
 
     int verticalVelocity;
     bool jumping;

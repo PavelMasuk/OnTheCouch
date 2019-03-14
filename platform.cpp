@@ -4,32 +4,24 @@
 #include<QDebug>
 
 
-Platform::Platform(double length, double height, std::string source, int playerSpeed, double absoluteX, double absoluteY)
+Platform::Platform(double absoluteX, double absoluteY, double length, double height, std::string source)
 {
     this->height=height;
     this->length=length;
     this->source=source;
-    this->playerSpeed=playerSpeed;
     this->absoluteX=absoluteX;
     this->absoluteY=absoluteY;
-    setRect(length, height, absoluteX, absoluteY);
+    setRect(600, absoluteY, length, height);
 }
 
-void Platform::move(bool moveLeft)
+void Platform::move(double distance)
 {
-    if(moveLeft){
-        absoluteX-=playerSpeed;
-    }else{
-        absoluteX+=playerSpeed;
-    }
-
-    if(x()<-200 || x()>1000){
-        collapse();
-    }
+    setPos(x()-distance, y());
 }
 
 void Platform::collapse()
 {
+    qDebug()<<"COLLAPSE---------------------------------";
     scene()->removeItem(this);
-    delete this;
+    //delete this;
 }
