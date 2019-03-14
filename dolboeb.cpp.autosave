@@ -1,11 +1,11 @@
-#include "player.h"
+#include "dolboeb.h"
 #include "bullet.h"
 #include <QKeyEvent>
 #include<QTimer>
 #include<QDebug>
 #include<QGraphicsScene>
 
-Player::Player()
+Dolboeb::Dolboeb()
 {
     setRect(0,0,LENGTH,HEIGHT);
     verticalVelocity=0;
@@ -17,7 +17,7 @@ Player::Player()
     timer->start(10);
 }
 
-void Player::keyPressEvent(QKeyEvent *event)
+void Dolboeb::keyPressEvent(QKeyEvent *event)
 {
     if(event->key()==Qt::Key_Left){
         facingRight=false;
@@ -44,7 +44,7 @@ void Player::keyPressEvent(QKeyEvent *event)
     }
 }
 
-void Player::keyReleaseEvent(QKeyEvent *event){
+void Dolboeb::keyReleaseEvent(QKeyEvent *event){
     if(event->key()==Qt::Key_Left){
         horisontalVelocity=0;
     }
@@ -56,38 +56,38 @@ void Player::keyReleaseEvent(QKeyEvent *event){
     }
 }
 
-bool Player::isOnTheGround()
+bool Dolboeb::isOnTheGround()
 {
     if(y()>100)
         return true;
     return false;
 }
 
-void Player::jump()
+void Dolboeb::jump()
 {
     if(isOnTheGround())
         verticalVelocity=JUMP_HEIGHT;
 }
 
-void Player::shoot()
+void Dolboeb::shoot()
 {
     //add animation
 
 }
 
-void Player::move()
+void Dolboeb::move()
 {
     if(jumping){
         jump();
     }
-    setPos(x()+horisontalVelocity,y()-verticalVelocity);
+    setPos(x(),y()-verticalVelocity);
     if(!isOnTheGround()){
         verticalVelocity-=1;
     }else{
         verticalVelocity=0;
         //add set pos on top of the ground to avoid penetrating the ground after a big fall
     }
-
+    
 }
 
 

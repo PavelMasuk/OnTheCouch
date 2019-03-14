@@ -1,18 +1,20 @@
-#ifndef DOLBOEB_H
-#define DOLBOEB_H
+#ifndef PLAYER_H
+#define PLAYER_H
 
 #include <QGraphicsRectItem>
 #include<QObject>
 
-class Dolboeb: public  QObject, public QGraphicsRectItem{
+class Player: public  QObject, public QGraphicsRectItem{
 Q_OBJECT
 public:
-    Dolboeb();
+    Player();
     const int JUMP_HEIGHT=20;
-    const int SPEED=5;
+    const int SPEED=3;
     const int HEIGHT=45;
     const int LENGTH=30;
     const double PISTOL_TO_BODY_HEIGHT_RATIO=0.7;//1=head, 0=feet
+    bool temp=true;
+
 
     int verticalVelocity;
     bool jumping;
@@ -29,4 +31,4 @@ public slots:
 };
 
 
-#endif // DOLBOEB_H
+#endif // PLAYER_H
