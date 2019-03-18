@@ -11,7 +11,11 @@ Platform::Platform(double absoluteX, double absoluteY, double length, double hei
     this->source=source;
     this->absoluteX=absoluteX;
     this->absoluteY=absoluteY;
-    setRect(600, absoluteY, length, height);
+    if(absoluteX>=600){
+        setRect(600, absoluteY, length, height);
+    }else{
+        setRect(absoluteX, absoluteY, length, height);
+    }
 }
 
 void Platform::move(double distance)
@@ -21,7 +25,7 @@ void Platform::move(double distance)
 
 void Platform::collapse()
 {
-    qDebug()<<"COLLAPSE---------------------------------";
+    //qDebug()<<"COLLAPSE---------------------------------";
     scene()->removeItem(this);
     //delete this;
 }

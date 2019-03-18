@@ -15,6 +15,7 @@ Player::Player()
     absoluteX=0;
     absoluteY=100;
 
+    activeMap.push_back(new Platform(400, 100, 10, 100, ""));
     activeMap.push_back(new Platform(1000, 150, 1000, 200, ""));
     activeMap.push_back(new Platform(1300, -50, 100, 200, ""));
     activeMap.push_back(new Platform(1450, -100, 500, 50, ""));
