@@ -144,8 +144,8 @@ void Player::move()
             }
         }else{
             if(platform->isAddedToTheScene){
-                platform->isAddedToTheScene=false;
-                platform->collapse();
+                //platform->isAddedToTheScene=false;
+                //platform->collapse();
             }
         }
     }
