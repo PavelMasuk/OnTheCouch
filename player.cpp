@@ -138,7 +138,7 @@ void Player::move()
         //qDebug()<<absoluteX;
         if(platform->absoluteX<absoluteX+600 && platform->absoluteX+platform->length>absoluteX-500){
             if(!platform->isAddedToTheScene){
-                qDebug()<<"ADD ITEM TO THE SCENE-------------------------";
+                //qDebug()<<"ADD ITEM TO THE SCENE-------------------------";
                 scene()->addItem(platform);
                 platform->isAddedToTheScene=true;
             }
