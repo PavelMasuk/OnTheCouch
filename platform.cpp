@@ -12,9 +12,13 @@ Platform::Platform(double absoluteX, double absoluteY, double length, double hei
     this->absoluteX=absoluteX;
     this->absoluteY=absoluteY;
     if(absoluteX>=600){
-        setRect(600, absoluteY, length, height);
+        QPixmap platform_image(":/images/bricks.jpg");
+        setPixmap(platform_image.QPixmap::scaled(length, height));
+        //setRect(600, absoluteY, length, height);
     }else{
-        setRect(absoluteX, absoluteY, length, height);
+        QPixmap bullet_image(":/images/bricks.jpg");
+        setPixmap(bullet_image.QPixmap::scaled(length, height));
+        //setRect(absoluteX, absoluteY, length, height);
     }
 }
 

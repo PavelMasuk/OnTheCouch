@@ -1,10 +1,10 @@
 #ifndef PLATFORM_H
 #define PLATFORM_H
 
-#include <QGraphicsRectItem>
+#include <QGraphicsPixmapItem>
 #include<QObject>
 
-class Platform: public  QObject, public QGraphicsRectItem{
+class Platform: public  QObject, public QGraphicsPixmapItem{
 Q_OBJECT
 public:
     double height;

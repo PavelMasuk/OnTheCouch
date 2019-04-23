@@ -7,7 +7,8 @@
 
 Player::Player()
 {
-    setRect(0,0,LENGTH,HEIGHT);
+    QPixmap player_image(":/images/player.png");
+    setPixmap(player_image.QPixmap::scaled(HEIGHT, LENGTH, Qt::KeepAspectRatio));
     verticalVelocity=0;
     horisontalVelocity=0;
     facingRight=true;
@@ -15,10 +16,18 @@ Player::Player()
     absoluteX=0;
     absoluteY=100;
 
-    activeMap.push_back(new Platform(400, 100, 10, 100, ""));
-    activeMap.push_back(new Platform(1000, 150, 1000, 200, ""));
-    activeMap.push_back(new Platform(1300, -50, 100, 200, ""));
-    activeMap.push_back(new Platform(1450, -100, 500, 50, ""));
+    Platform* p1 = new Platform(400, 100, 10, 100, "");
+    p1->setPos(400, 100);
+    Platform* p2 = new Platform(1000, 150, 1000, 200, "");
+    p2->setPos(600, 150);
+    Platform* p3 = new Platform(1300, -50, 100, 200, "");
+    p3->setPos(600, -50);
+    Platform* p4 = new Platform(1450, -100, 500, 50, "");
+    p4->setPos(600, -100);
+    activeMap.push_back(p1);
+    activeMap.push_back(p2);
+    activeMap.push_back(p3);
+    activeMap.push_back(p4);
 
     QTimer * timer=new QTimer();
     connect(timer, SIGNAL(timeout()), this, SLOT(move()));
@@ -48,6 +57,7 @@ void Player::keyPressEvent(QKeyEvent *event)
         }
 
         Bullet * bullet=new Bullet(facingRight, bulletX, bulletY);
+        bullet->setPos(bulletX,bulletY);
         scene()->addItem(bullet);
     }
 }

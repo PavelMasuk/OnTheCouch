@@ -5,8 +5,12 @@
 
 Bullet::Bullet(bool facingRight, double x, double y)
 {
-    setRect(x, y, LENGTH, HEIGHT);
+    QPixmap bullet_image(":/images/bullet.png");
+    setPixmap(bullet_image.QPixmap::scaled(30, 30, Qt::KeepAspectRatio));
     this->facingRight=facingRight;
+    if(!facingRight){
+        setRotation(180);
+    }
     QTimer * timer=new QTimer();
     connect(timer, SIGNAL(timeout()), this, SLOT(move()));
     timer->start(10);
