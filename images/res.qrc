@@ -4,5 +4,9 @@
         <file>bullet.png</file>
         <file>background.png</file>
         <file>player.png</file>
+        <file>player_right.png</file>
+        <file>Flat_Game_Background_1.jpg</file>
+        <file>bg.png</file>
+        <file>orange.jpg</file>
     </qresource>
 </RCC>

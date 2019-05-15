@@ -3,26 +3,27 @@
 #include <QKeyEvent>
 #include<QTimer>
 #include<QDebug>
+#include<QColor>
 #include<QGraphicsScene>
 
 Player::Player()
 {
     QPixmap player_image(":/images/player.png");
-    setPixmap(player_image.QPixmap::scaled(HEIGHT, LENGTH, Qt::KeepAspectRatio));
+    setPixmap(player_image.QPixmap::scaled(LENGTH, HEIGHT));
     verticalVelocity=0;
     horisontalVelocity=0;
     facingRight=true;
     jumping=false;
     absoluteX=0;
     absoluteY=100;
-
-    Platform* p1 = new Platform(400, 100, 10, 100, "");
+    this->init = true;
+    Platform* p1 = new Platform(400, 100, 10, 100, "", false);
     p1->setPos(400, 100);
-    Platform* p2 = new Platform(1000, 150, 1000, 200, "");
+    Platform* p2 = new Platform(-1000, 150, 3000, 500, "", true);
     p2->setPos(600, 150);
-    Platform* p3 = new Platform(1300, -50, 100, 200, "");
+    Platform* p3 = new Platform(1300, -50, 100, 200, "", false);
     p3->setPos(600, -50);
-    Platform* p4 = new Platform(1450, -100, 500, 50, "");
+    Platform* p4 = new Platform(1450, -100, 500, 50, "", false);
     p4->setPos(600, -100);
     activeMap.push_back(p1);
     activeMap.push_back(p2);
@@ -38,10 +39,14 @@ void Player::keyPressEvent(QKeyEvent *event)
 {
     if(event->key()==Qt::Key_Left){
         facingRight=false;
+        QPixmap player_image(":/images/player.png");
+        setPixmap(player_image.QPixmap::scaled(LENGTH, HEIGHT));
         horisontalVelocity=-SPEED;
     }
     if(event->key()==Qt::Key_Right){
         facingRight=true;
+        QPixmap player_image(":/images/player_right.png");
+        setPixmap(player_image.QPixmap::scaled(LENGTH, HEIGHT));
         horisontalVelocity=SPEED;
     }
     if(event->key()==Qt::Key_Up){
@@ -49,11 +54,13 @@ void Player::keyPressEvent(QKeyEvent *event)
     }
     if(event->key()==Qt::Key_Space){
         double bulletX;
-        double bulletY=y()+((1-PISTOL_TO_BODY_HEIGHT_RATIO)*HEIGHT)-Bullet::HEIGHT;
+        double bulletY=y();
         if(facingRight){
             bulletX=x()+LENGTH;
+            bulletY-=7;
         }else{
             bulletX=x();
+            bulletY+=4.75*Bullet::HEIGHT;
         }
 
         Bullet * bullet=new Bullet(facingRight, bulletX, bulletY);
@@ -84,9 +91,14 @@ bool Player::isOnTheGround()
             }
         }
     }
-    if(y()>=150){
-        setPos(x(), 150);
-        return true;
+    if(y()>200){
+        QGraphicsTextItem * lose = new QGraphicsTextItem;
+        lose->setPos(-30,-100);
+        lose->setScale(4);
+        lose->setPlainText("YOU LOSE");
+        lose->setDefaultTextColor(QColor(255,0,0));
+        scene()->addItem(lose);
+        this->gameEnded = true;
     }
     return false;
 }
@@ -143,7 +155,17 @@ void Player::shoot()
 
 void Player::move()
 {   
+    if(!this->gameEnded){
     //map loading
+        if(this->absoluteX>this->levelLength){
+            QGraphicsTextItem * win = new QGraphicsTextItem;
+            win->setPos(-30,-100);
+            win->setScale(4);
+            win->setPlainText("YOU WIN");
+            win->setDefaultTextColor(QColor(0,255,0));
+            scene()->addItem(win);
+            this->gameEnded = true;
+        }
     for(Platform* platform : activeMap){
         //qDebug()<<absoluteX;
         if(platform->absoluteX<absoluteX+600 && platform->absoluteX+platform->length>absoluteX-500){
@@ -181,6 +203,7 @@ void Player::move()
 
     if(canMoveHorizontally(horisontalVelocity)){
         moveHorizontally(horisontalVelocity);
+    }
     }
 }
 

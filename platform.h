@@ -7,6 +7,8 @@
 class Platform: public  QObject, public QGraphicsPixmapItem{
 Q_OBJECT
 public:
+    bool init;
+    bool isFirst;
     double height;
     double length=10;
     double absoluteX;
@@ -17,7 +19,7 @@ public:
 
     bool isAddedToTheScene=false;
 
-    Platform(double absoluteX, double absoluteY, double length, double height, std::string source);
+    Platform(double absoluteX, double absoluteY, double length, double height, std::string source, bool isFirst);
     void collapse();
 public slots:
     void move(double distance);

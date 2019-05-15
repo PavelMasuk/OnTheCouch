@@ -2,6 +2,7 @@
 #include <QGraphicsScene>
 #include "player.h"
 #include <QGraphicsView>
+#include <QGraphicsTextItem>
 
 int main(int argc, char *argv[])
 {
@@ -18,8 +19,10 @@ int main(int argc, char *argv[])
     view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view->setSceneRect(-200,-300,600,500);
-    QPixmap bg(":/images/background.png");
-    view->setBackgroundBrush(bg.QPixmap::scaled(1000, 1000, Qt::KeepAspectRatio));
+    view->setMaximumSize(1000, 1200);
+    view->setMinimumSize(600, 500);
+    QPixmap bg(":/images/bg.png");
+    view->setBackgroundBrush(bg.QPixmap::scaled(2000, 1000, Qt::KeepAspectRatio));
     scene->setStickyFocus(true);
     view->show();
     return a.exec();
