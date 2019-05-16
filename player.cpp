@@ -9,8 +9,8 @@
 Player::Player()
 {
     if(rofl){
-        this->HEIGHT *= 10;
-        this->LENGTH *= 10;
+        this->HEIGHT *= 1;
+        this->LENGTH *= 1;
         this->player_right = ":/images/iliin_right.png";
         this->player_left = ":/images/iliin_left.png";
     }
@@ -25,16 +25,80 @@ Player::Player()
     this->init = true;
     Platform* finish = new Platform(this->levelLength, -2000, 10, 10000, "finish.jpg", false, false, false, true);
     activeMap.push_back(finish);
-    Platform* p1 = new Platform(400, 100, 10, 100, "orange.jpg");
-    Platform* p2 = new Platform(-1000, 150, 3000, 500, "orange.jpg");
-    Platform* p3 = new Platform(1300, -50, 100, 200, "orange.jpg");
-    Platform* p4 = new Platform(1450, -100, 500, 50, "orange.jpg");
-    Platform* p5 = new Platform(2000, -50, 500, 50, "orange.jpg");
-    activeMap.push_back(p1);
-    activeMap.push_back(p2);
-    activeMap.push_back(p3);
-    activeMap.push_back(p4);
-    activeMap.push_back(p5);
+    Platform* p1 = new Platform(0, 0, 40, 10, "orange.jpg", false);
+            Platform* p11 = new Platform(100, 100, 100, 100, "orange.jpg", false);
+            Platform* p12 = new Platform(150, 50, 100, 100, "orange.jpg", false);
+            Platform* p13 = new Platform(200, 0, 100, 100, "orange.jpg", false);
+            Platform* p14 = new Platform(250, -50, 100, 100, "orange.jpg", false);
+
+            Platform* p21 = new Platform(450, -100, 100, 10, "orange.jpg", false);
+            Platform* p22 = new Platform(560, -100, 90, 10, "orange.jpg", true);
+            Platform* p23 = new Platform(650, -100, 100, 10, "orange.jpg", false);
+            Platform* p24 = new Platform(760, -100, 90, 10, "orange.jpg", true);
+            Platform* p25 = new Platform(850, -100, 100, 10, "orange.jpg", false);
+            Platform* p26 = new Platform(960, -100, 90, 10, "orange.jpg", true);
+            Platform* p27 = new Platform(1050, -100, 100, 10, "orange.jpg", false);
+            Platform* p28 = new Platform(1160, -100, 90, 10, "orange.jpg", true);
+
+            Platform* p29 = new Platform(1260, -100, 300, 10, "orange.jpg", false);
+
+            Platform* p30  = new Platform(1950, -200, 650, 100, "orange.jpg", true, true, true, true);
+            Platform* p31  = new Platform(1950, -100, 650, 10, "orange.jpg", false);
+            Platform* p32  = new Platform(1950, -450, 700, 250, "orange.jpg", false);
+            activeMap.push_back(p31);
+            activeMap.push_back(p32);
+
+
+            Platform* p16 = new Platform(1400, -400, 3000, 10, "orange.jpg", false);
+
+            Platform* p17 = new Platform(1600, -150, 50, 10, "orange.jpg", false);
+            Platform* p18 = new Platform(1700, -100, 50, 10, "orange.jpg", false);
+            Platform* p19 = new Platform(1800, -50, 50, 10, "orange.jpg", false);
+            Platform* p20 = new Platform(1900, 0, 50, 10, "orange.jpg", false);
+
+
+            Platform* p2 = new Platform(-500, 150, 2200, 500, "orange.jpg", false);
+            Platform* p3 = new Platform(1300, 200, 100, 200, "orange.jpg", false);
+            Platform* p4 = new Platform(1450, 100, 500, 50, "orange.jpg", false);
+            Platform* p5 = new Platform(2000, -500, 1000, 10, "orange.jpg", false);
+
+            Platform* p7 = new Platform(2600, 150, 90, 300, "orange.jpg", false);
+            Platform* p8 = new Platform(2800, 150, 90, 300, "orange.jpg", false);
+            Platform* p9 = new Platform(3000, 150, 90, 300, "orange.jpg", false);
+            Platform* p10 = new Platform(3200, 150, 90, 300, "orange.jpg", false);
+
+            activeMap.push_back(p1);
+            activeMap.push_back(p2);
+            activeMap.push_back(p3);
+            activeMap.push_back(p4);
+            activeMap.push_back(p5);
+
+            activeMap.push_back(p7);
+            activeMap.push_back(p8);
+            activeMap.push_back(p9);
+            activeMap.push_back(p10);
+            activeMap.push_back(p11);
+            activeMap.push_back(p12);
+            activeMap.push_back(p13);
+            activeMap.push_back(p14);
+            activeMap.push_back(p16);
+            activeMap.push_back(p16);
+            activeMap.push_back(p17);
+            activeMap.push_back(p18);
+            activeMap.push_back(p19);
+            activeMap.push_back(p20);
+            activeMap.push_back(p21);
+
+            activeMap.push_back(p22);
+            activeMap.push_back(p23);
+            activeMap.push_back(p24);
+            activeMap.push_back(p25);
+            activeMap.push_back(p26);
+            activeMap.push_back(p27);
+            activeMap.push_back(p28);
+            activeMap.push_back(p29);
+
+            activeMap.push_back(p30);
 
 
     this->lose->setScale(4);
@@ -63,7 +127,19 @@ void Player::keyPressEvent(QKeyEvent *event)
         setPixmap(player_image.QPixmap::scaled(LENGTH, HEIGHT));
         horisontalVelocity=-SPEED;
     }
+    if(event->key()==Qt::Key_A){
+        facingRight=false;
+        QPixmap player_image(player_left);
+        setPixmap(player_image.QPixmap::scaled(LENGTH, HEIGHT));
+        horisontalVelocity=-SPEED;
+    }
     if(event->key()==Qt::Key_Right){
+        facingRight=true;
+        QPixmap player_image(player_right);
+        setPixmap(player_image.QPixmap::scaled(LENGTH, HEIGHT));
+        horisontalVelocity=SPEED;
+    }
+    if(event->key()==Qt::Key_D){
         facingRight=true;
         QPixmap player_image(player_right);
         setPixmap(player_image.QPixmap::scaled(LENGTH, HEIGHT));
@@ -72,7 +148,25 @@ void Player::keyPressEvent(QKeyEvent *event)
     if(event->key()==Qt::Key_Up){
             jumping=true;
     }
+    if(event->key()==Qt::Key_W){
+            jumping=true;
+    }
     if(event->key()==Qt::Key_Space){
+        double bulletX;
+        double bulletY=y();
+        if(facingRight){
+            bulletX=x()+LENGTH;
+            bulletY-=7;
+        }else{
+            bulletX=x();
+            bulletY+=4.75*Bullet::HEIGHT;
+        }
+
+        Bullet * bullet=new Bullet(facingRight, bulletX, bulletY);
+        bullet->setPos(bulletX,bulletY);
+        scene()->addItem(bullet);
+    }
+    if(event->key()==Qt::Key_Q){
         double bulletX;
         double bulletY=y();
         if(facingRight){
