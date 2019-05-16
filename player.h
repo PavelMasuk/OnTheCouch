@@ -25,6 +25,9 @@ public:
     std::vector<Platform*> activeMap;
     std::vector<Platform*> inActiveMap;
 
+    QGraphicsTextItem * lose = new QGraphicsTextItem;
+    QGraphicsTextItem * win = new QGraphicsTextItem;
+
     int verticalVelocity;
     bool jumping;
     int horisontalVelocity;

@@ -30,6 +30,14 @@ Player::Player()
     activeMap.push_back(p4);
     activeMap.push_back(p5);
 
+
+    this->lose->setScale(4);
+    this->lose->setPlainText("YOU LOSE");
+    this->lose->setDefaultTextColor(QColor(255,0,0));
+    this->win->setScale(4);
+    this->win->setPlainText("YOU WIN");
+    this->win->setDefaultTextColor(QColor(0,255,0));
+
     QTimer * timer=new QTimer();
     connect(timer, SIGNAL(timeout()), this, SLOT(move()));
     timer->start(10);
@@ -92,12 +100,8 @@ bool Player::isOnTheGround()
         }
     }
     if(y()>200){
-        QGraphicsTextItem * lose = new QGraphicsTextItem;
-        lose->setPos(-30,-100);
-        lose->setScale(4);
-        lose->setPlainText("YOU LOSE");
-        lose->setDefaultTextColor(QColor(255,0,0));
-        scene()->addItem(lose);
+        this->lose->setPos(-30,-100);
+        scene()->addItem(this->lose);
         this->gameEnded = true;
     }
     return false;
@@ -159,12 +163,8 @@ void Player::move()
     if(!this->gameEnded){
     //map loading
         if(this->absoluteX>this->levelLength){
-            QGraphicsTextItem * win = new QGraphicsTextItem;
-            win->setPos(-30,-100);
-            win->setScale(4);
-            win->setPlainText("YOU WIN");
-            win->setDefaultTextColor(QColor(0,255,0));
-            scene()->addItem(win);
+            this->win->setPos(-30,-100);
+            scene()->addItem(this->win);
             this->gameEnded = true;
         }
     for(Platform* platform : activeMap){
