@@ -10,13 +10,16 @@ class Player: public  QObject, public QGraphicsPixmapItem{
 Q_OBJECT
 public:
     Player();
+    bool rofl=false;
     int levelLength = 2600;
     bool gameEnded = false;
 
     const int JUMP_HEIGHT=20;
     const int SPEED=3;
-    const int HEIGHT=45;
-    const int LENGTH=30;
+    int HEIGHT=45;
+    int LENGTH=30;
+    QString player_right = ":/images/player_right.png";
+    QString player_left = ":/images/player.png";
     const double PISTOL_TO_BODY_HEIGHT_RATIO=0.7;//1=head, 0=feet
     bool init;
     double absoluteX;
@@ -27,6 +30,8 @@ public:
 
     QGraphicsTextItem * lose = new QGraphicsTextItem;
     QGraphicsTextItem * win = new QGraphicsTextItem;
+    QGraphicsTextItem * peresda4a = new QGraphicsTextItem;
+    QGraphicsTextItem * zakril = new QGraphicsTextItem;
 
     int verticalVelocity;
     bool jumping;

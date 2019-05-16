@@ -9,5 +9,7 @@
         <file>bg.png</file>
         <file>orange.jpg</file>
         <file>finish.jpg</file>
+        <file>iliin_left.png</file>
+        <file>iliin_right.png</file>
     </qresource>
 </RCC>

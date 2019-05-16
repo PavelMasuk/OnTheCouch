@@ -8,7 +8,13 @@
 
 Player::Player()
 {
-    QPixmap player_image(":/images/player.png");
+    if(rofl){
+        this->HEIGHT *= 10;
+        this->LENGTH *= 10;
+        this->player_right = ":/images/iliin_right.png";
+        this->player_left = ":/images/iliin_left.png";
+    }
+    QPixmap player_image(player_right);
     setPixmap(player_image.QPixmap::scaled(LENGTH, HEIGHT));
     verticalVelocity=0;
     horisontalVelocity=0;
@@ -37,6 +43,12 @@ Player::Player()
     this->win->setScale(4);
     this->win->setPlainText("YOU WIN");
     this->win->setDefaultTextColor(QColor(0,255,0));
+    this->peresda4a->setScale(10);
+    this->peresda4a->setPlainText("ПЕРЕСДАЧА");
+    this->peresda4a->setDefaultTextColor(QColor(255,0,0));
+    this->zakril->setScale(4);
+    this->zakril->setPlainText("ЗАКРЫЛ!");
+    this->zakril->setDefaultTextColor(QColor(0,255,0));
 
     QTimer * timer=new QTimer();
     connect(timer, SIGNAL(timeout()), this, SLOT(move()));
@@ -47,13 +59,13 @@ void Player::keyPressEvent(QKeyEvent *event)
 {
     if(event->key()==Qt::Key_Left){
         facingRight=false;
-        QPixmap player_image(":/images/player.png");
+        QPixmap player_image(player_left);
         setPixmap(player_image.QPixmap::scaled(LENGTH, HEIGHT));
         horisontalVelocity=-SPEED;
     }
     if(event->key()==Qt::Key_Right){
         facingRight=true;
-        QPixmap player_image(":/images/player_right.png");
+        QPixmap player_image(player_right);
         setPixmap(player_image.QPixmap::scaled(LENGTH, HEIGHT));
         horisontalVelocity=SPEED;
     }
@@ -102,8 +114,13 @@ bool Player::isOnTheGround()
         }
     }
     if(y()>200){
-        this->lose->setPos(-30,-100);
-        scene()->addItem(this->lose);
+        if(rofl){
+        this->peresda4a->setPos(-600,-200);
+        scene()->addItem(this->peresda4a);
+        }else{
+            this->lose->setPos(-30,-100);
+                    scene()->addItem(this->lose);
+        }
         this->gameEnded = true;
     }
     return false;
@@ -167,8 +184,13 @@ void Player::move()
     if(!this->gameEnded){
     //map loading
         if(this->absoluteX+this->LENGTH>this->levelLength){
-            this->win->setPos(-30,-100);
-            scene()->addItem(this->win);
+            if(rofl){
+            this->zakril->setPos(-30,-100);
+            scene()->addItem(this->zakril);
+            }else{
+                this->win->setPos(-30,-100);
+                            scene()->addItem(this->win);
+            }
             this->gameEnded = true;
         }
     for(Platform* platform : activeMap){
