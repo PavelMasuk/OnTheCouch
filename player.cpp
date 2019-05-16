@@ -17,13 +17,13 @@ Player::Player()
     absoluteX=0;
     absoluteY=100;
     this->init = true;
-    Platform* finish = new Platform(this->levelLength, -2000, 10, 10000, "finish.jpg", true);
+    Platform* finish = new Platform(this->levelLength, -2000, 10, 10000, "finish.jpg", false, false, false, true);
     activeMap.push_back(finish);
-    Platform* p1 = new Platform(400, 100, 10, 100, "orange.jpg", false);
-    Platform* p2 = new Platform(-1000, 150, 3000, 500, "orange.jpg", false);
-    Platform* p3 = new Platform(1300, -50, 100, 200, "orange.jpg", false);
-    Platform* p4 = new Platform(1450, -100, 500, 50, "orange.jpg", false);
-    Platform* p5 = new Platform(2000, -50, 500, 50, "orange.jpg", false);
+    Platform* p1 = new Platform(400, 100, 10, 100, "orange.jpg");
+    Platform* p2 = new Platform(-1000, 150, 3000, 500, "orange.jpg");
+    Platform* p3 = new Platform(1300, -50, 100, 200, "orange.jpg");
+    Platform* p4 = new Platform(1450, -100, 500, 50, "orange.jpg");
+    Platform* p5 = new Platform(2000, -50, 500, 50, "orange.jpg");
     activeMap.push_back(p1);
     activeMap.push_back(p2);
     activeMap.push_back(p3);
@@ -94,8 +94,10 @@ bool Player::isOnTheGround()
     for(Platform* platform : activeMap){
         if(absoluteX>platform->absoluteX-LENGTH && absoluteX< platform->absoluteX+platform->length){
             if(y()<platform->absoluteY+platform->height && y()+HEIGHT>=platform->absoluteY){
+                if(!platform->noCollisionBoxTop){
                 setPos(x(), platform->absoluteY-HEIGHT);
                 return  true;
+                }
             }
         }
     }
@@ -111,12 +113,13 @@ bool Player::canMoveHorizontally(int distance){
     bool canMove=true;
     for(Platform* platform : activeMap){
         if(platform->isAddedToTheScene){
+            if(!(distance>0 && platform->noCollisionBoxLeft) && !(distance<0 && platform->noCollisionBoxRight)){
             if(absoluteX+distance+LENGTH>=platform->absoluteX && absoluteX+distance<= platform->absoluteX+platform->length+3){
                 if(y()<platform->absoluteY+platform->height && y()+HEIGHT>platform->absoluteY){
-                    if(!platform->noCollisionBox)
-                        canMove=false;
+                    canMove=false;
                 }
             }
+        }
         }
     }
     return canMove;
@@ -138,7 +141,8 @@ bool Player::canMoveUpwards(int distance){
         if(platform->isAddedToTheScene){
             if(absoluteX>=platform->absoluteX-LENGTH && absoluteX<= platform->absoluteX+platform->length){
                 if(y()-distance<platform->absoluteY+platform->height && y()-distance+HEIGHT>platform->absoluteY){
-                    canMove=false;
+                    if(!platform->noCollisionBoxBottom)
+                        canMove=false;
                 }
             }
         }
@@ -162,7 +166,7 @@ void Player::move()
 {   
     if(!this->gameEnded){
     //map loading
-        if(this->absoluteX>this->levelLength){
+        if(this->absoluteX+this->LENGTH>this->levelLength){
             this->win->setPos(-30,-100);
             scene()->addItem(this->win);
             this->gameEnded = true;

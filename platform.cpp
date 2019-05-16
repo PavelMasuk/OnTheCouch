@@ -4,9 +4,12 @@
 #include<QDebug>
 
 
-Platform::Platform(double absoluteX, double absoluteY, double length, double height, QString source, bool noCollisionBox)
+Platform::Platform(double absoluteX, double absoluteY, double length, double height, QString source, bool noCollisionBoxTop, bool noCollisionBoxRight, bool noCollisionBoxBottom, bool noCollisionBoxLeft)
 {  
-    this->noCollisionBox=noCollisionBox;
+    this->noCollisionBoxTop=noCollisionBoxTop;
+    this->noCollisionBoxRight=noCollisionBoxRight;
+    this->noCollisionBoxBottom=noCollisionBoxBottom;
+    this->noCollisionBoxLeft=noCollisionBoxLeft;
     this->init = true;
     this->height=height;
     this->length=length;
