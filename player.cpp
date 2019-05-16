@@ -17,18 +17,18 @@ Player::Player()
     absoluteX=0;
     absoluteY=100;
     this->init = true;
-    Platform* p1 = new Platform(400, 100, 10, 100, "", false);
-    p1->setPos(400, 100);
-    Platform* p2 = new Platform(-1000, 150, 3000, 500, "", true);
-    p2->setPos(600, 150);
-    Platform* p3 = new Platform(1300, -50, 100, 200, "", false);
-    p3->setPos(600, -50);
-    Platform* p4 = new Platform(1450, -100, 500, 50, "", false);
-    p4->setPos(600, -100);
+    Platform* finish = new Platform(this->levelLength, -2000, 10, 10000, "finish.jpg", true);
+    activeMap.push_back(finish);
+    Platform* p1 = new Platform(400, 100, 10, 100, "orange.jpg", false);
+    Platform* p2 = new Platform(-1000, 150, 3000, 500, "orange.jpg", false);
+    Platform* p3 = new Platform(1300, -50, 100, 200, "orange.jpg", false);
+    Platform* p4 = new Platform(1450, -100, 500, 50, "orange.jpg", false);
+    Platform* p5 = new Platform(2000, -50, 500, 50, "orange.jpg", false);
     activeMap.push_back(p1);
     activeMap.push_back(p2);
     activeMap.push_back(p3);
     activeMap.push_back(p4);
+    activeMap.push_back(p5);
 
     QTimer * timer=new QTimer();
     connect(timer, SIGNAL(timeout()), this, SLOT(move()));
@@ -109,7 +109,8 @@ bool Player::canMoveHorizontally(int distance){
         if(platform->isAddedToTheScene){
             if(absoluteX+distance+LENGTH>=platform->absoluteX && absoluteX+distance<= platform->absoluteX+platform->length+3){
                 if(y()<platform->absoluteY+platform->height && y()+HEIGHT>platform->absoluteY){
-                    canMove=false;
+                    if(!platform->noCollisionBox)
+                        canMove=false;
                 }
             }
         }
@@ -168,17 +169,17 @@ void Player::move()
         }
     for(Platform* platform : activeMap){
         //qDebug()<<absoluteX;
-        if(platform->absoluteX<absoluteX+600 && platform->absoluteX+platform->length>absoluteX-500){
+        //if(platform->absoluteX<absoluteX+600 && platform->absoluteX+platform->length>absoluteX-500){
             if(!platform->isAddedToTheScene){
                 //qDebug()<<"ADD ITEM TO THE SCENE-------------------------";
                 scene()->addItem(platform);
                 platform->isAddedToTheScene=true;
             }
-        }else{
+        //}else{
             if(platform->isAddedToTheScene){
                 //platform->isAddedToTheScene=false;
                 //platform->collapse();
-            }
+            //}
         }
     }
 

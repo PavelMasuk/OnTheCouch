@@ -10,7 +10,7 @@ class Player: public  QObject, public QGraphicsPixmapItem{
 Q_OBJECT
 public:
     Player();
-    int levelLength = 2000;
+    int levelLength = 2600;
     bool gameEnded = false;
 
     const int JUMP_HEIGHT=20;

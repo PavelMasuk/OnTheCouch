@@ -23,7 +23,8 @@ void Bullet::collapse()
 
 void Bullet::hit()
 {
-
+    scene()->removeItem(this);
+    delete this;
 }
 
 void Bullet::move()
@@ -36,6 +37,9 @@ void Bullet::move()
     if(x()>800 || x()<-800){
         scene()->removeItem(this);
         delete this;
+    }
+    if(collidingItems().size()>0){
+        this->hit();
     }
 }
 
